@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+
+		<link href="../../resource/assets/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="../../resource/assets/js/jquery-1.11.3.min.js"></script>
+		<script type="text/javascript" src="../../resource/assets/js/bootstrap.min.js"></script>
+
+
+		<link href="jquery/bootstrap-datetimepicker-master/css/bootstrap-datetimepicker.min.css" type="text/css" rel="stylesheet" />
+		<script type="text/javascript" src="../../resource/assets/js/bootstrap-datetimepicker.min.js"></script>
+		<!-- <script type="text/javascript" src="bootstrap-datetimepicker.zh-CN.js"></script> -->
+
+		<script type="text/javascript">
+			$(function() {
+				$("#isCreateTransaction").click(function() {
+					if (this.checked) {
+						$("#create-transaction2").show(200);
+					} else {
+						$("#create-transaction2").hide(200);
+					}
+				});
+			});
+		</script>
+
+	</head>
+	<body>
+		<div id="app">
+			<!-- 搜索市场活动的模态窗口 -->
+			<div class="modal fade" id="searchActivityModal" role="dialog">
+				<div class="modal-dialog" role="document" style="width: 90%;">
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">
+								<span aria-hidden="true">×</span>
+							</button>
+							<h4 class="modal-title">搜索市场活动</h4>
+						</div>
+						<div class="modal-body">
+							<div class="btn-group" style="position: relative; top: 18%; left: 8px;">
+								<form class="form-inline" role="form">
+									<div class="form-group has-feedback">
+										<input type="text" class="form-control" v-model="activityName" v-on:keyup="queryActivity()" style="width: 300px;" placeholder="请输入市场活动名称，支持模糊查询">
+										<span class="glyphicon glyphicon-search form-control-feedback"></span>
+									</div>
+								</form>
+							</div>
+							<table id="activityTable" class="table table-hover" style="width: 900px; position: relative;top: 10px;">
+								<thead>
+									<tr style="color: #B3B3B3;">
+										<td></td>
+										<td>名称</td>
+										<td>开始日期</td>
+										<td>结束日期</td>
+										<td>所有者</td>
+										<td></td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr v-for="act in activityList">
+										<td><input type="radio" name="activity" v-on:click="setActivity(act.name)"  v-bind:value="act.id" v-model="activityId" /></td>
+										<td>{{act.name}}</td>
+										<td>{{act.start_date}}</td>
+										<td>{{act.end_date}}</td>
+										<td>{{act.owner_name}}</td>
+									</tr>
+									
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="title" class="page-header" style="position: relative; left: 20px;">
+				<h4>转换线索 <small>{{clueConvertInfo.full_name}}{{clueConvertInfo.value}}-{{clueConvertInfo.company}}</small></h4>
+			</div>
+			<div id="create-customer" style="position: relative; left: 40px; height: 35px;">
+				新建客户：{{clueConvertInfo.company}}
+			</div>
+			<div id="create-contact" style="position: relative; left: 40px; height: 35px;">
+				新建联系人：{{clueConvertInfo.full_name}}{{clueConvertInfo.value}}
+			</div>
+			<div id="create-transaction1" style="position: relative; left: 40px; height: 35px; top: 25px;">
+				<input type="checkbox" id="isCreateTransaction" />
+				为客户创建交易
+			</div>
+			<div id="create-transaction2" style="position: relative; left: 40px; top: 20px; width: 80%; background-color: #F7F7F7; display: none;">
+
+				<form>
+					<div class="form-group" style="width: 400px; position: relative; left: 20px;">
+						<label for="amountOfMoney">金额</label>
+						<input type="text" class="form-control" id="amountOfMoney" v-model="money">
+					</div>
+					<div class="form-group" style="width: 400px;position: relative; left: 20px;">
+						<label for="tradeName">交易名称</label>
+						<input type="text" class="form-control" id="tradeName" value="动力节点-" v-model="name">
+					</div>
+					<div class="form-group" style="width: 400px;position: relative; left: 20px;">
+						<label for="expectedClosingDate">预计成交日期</label>
+						<input type="text" class="form-control" id="expectedClosingDate" v-model="expectedDate">
+					</div>
+					<div class="form-group" style="width: 400px;position: relative; left: 20px;">
+						<label for="stage">阶段</label>
+						<select id="stage" class="form-control" v-model="stage">
+							<option v-for="st in stageList" v-bind:value="st.id">{{st.value}}</option>
+						
+						</select>
+					</div>
+					<div class="form-group" style="width: 400px;position: relative; left: 20px;">
+						<label for="activity">市场活动源&nbsp;&nbsp;<a href="javascript:void(0);" data-toggle="modal" data-target="#searchActivityModal"
+							 style="text-decoration: none;"><span class="glyphicon glyphicon-search"></span></a></label>
+						<input type="text" class="form-control" v-model="actName" id="activity" placeholder="点击上面搜索" readonly>
+					</div>
+				</form>
+
+			</div>
+
+			<div id="owner" style="position: relative; left: 40px; height: 35px; top: 50px;">
+				记录的所有者：<br>
+				<b>{{clueConvertInfo.name}}</b>
+			</div>
+			<div id="operation" style="position: relative; left: 40px; height: 35px; top: 100px;">
+				<input class="btn btn-primary" type="button" value="转换" v-on:click="clueConvert()">
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<input class="btn btn-default" type="button" value="取消">
+			</div>
+		</div>
+		<script src="../../resource/vue/vue.min.js"></script>
+		<script src="../../resource/vue/axios.min.js"></script>
+	</body>
+	<script src="../../resource/js/workbench/clue/clue_convert.js"></script>
+</html>

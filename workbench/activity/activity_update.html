@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>Tables - Ace Admin</title>
+
+		<meta name="description" content="Static &amp; Dynamic Tables" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<link rel="stylesheet" href="../../resource/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../resource/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../../resource/assets/css/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="../../resource/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+		<link rel="stylesheet" href="../../resource/assets/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="../../resource/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="../../resource/date/css/date.css" />
+		<script href="../../resource/assets/js/ace-extra.min.js"></script>
+	</head>
+
+	<body class="no-skin">
+		<div class="main-container ace-save-state" id="main-container">
+			<div class="main-content">
+				<div class="main-content-inner">
+
+					<div class="page-content">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<div class="row">
+									<div class="col-xs-12">
+										<div>
+											<div style="width: 85%;">
+												<div>
+													<div style="position: relative; left: 10px; top: -10px;">
+														<div class="page-header">
+															<h3>修改市场活动</h3>
+														</div>
+													</div>
+													<div>
+
+														<form class="form-horizontal" role="form">
+
+															<div class="form-group">
+																<label for="create-marketActivityName" class="col-sm-2 control-label">名称<span style="font-size: 15px; color: red;">*</span></label>
+																<div class="col-sm-10" style="width: 300px;">
+																	<input type="text" class="form-control" id="create-marketActivityName" v-model="activity.name">
+																</div>
+																<label for="create-cost" class="col-sm-2 control-label">成本</label>
+																<div class="col-sm-10" style="width: 300px;">
+																	<input type="text" class="form-control" id="create-cost" v-model="activity.cost">
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="create-startTime" class="col-sm-2 control-label">开始日期</label>
+																<div class="col-sm-10 " style="width: 300px;" id="start-date">
+																	<input type="text" class="form-control " id="start-inputDate" v-model="activity.startDate">
+																</div>
+																<label for="create-endTime" class="col-sm-2 control-label">结束日期</label>
+																<div class="col-sm-10 " style="width: 300px;" id="end-date">
+																	<input type="text" class="form-control " id="end-inputDate" v-model="activity.endDate">
+																</div>
+															</div>
+
+															<div class="form-group">
+																<label for="create-describe" class="col-sm-2 control-label">描述</label>
+																<div class="col-sm-10" style="width: 81%;">
+																	<textarea class="form-control" rows="3" id="create-describe" v-model="activity.description"></textarea>
+																</div>
+															</div>
+
+														</form>
+
+													</div>
+													<div class="modal-footer" style="width: 81%; margin-left: 155px;">
+														<button type="button" class="btn btn-default" v-on:click="resetData()">重置</button>
+														<button type="button" class="btn btn-primary" v-on:click="updateActivity()">保存</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div><!-- /.col -->
+								</div><!-- /.row -->
+							</div><!-- /.page-content -->
+						</div>
+					</div><!-- /.main-content -->
+				</div><!-- /.main-container -->
+			</div>
+		</div>
+		<script src="../../resource/assets/js/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript">
+			if ('ontouchstart' in document.documentElement) document.write(
+				"<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+		</script>
+		<script src="../../resource/assets/js/bootstrap.min.js"></script>
+		<script src="../../resource/assets/js/jquery.dataTables.min.js"></script>
+		<script src="../../resource/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+		<script src="../../resource/assets/js/dataTables.buttons.min.js"></script>
+		<script src="../../resource/assets/js/buttons.flash.min.js"></script>
+		<script src="../../resource/assets/js/buttons.html5.min.js"></script>
+		<script src="../../resource/assets/js/buttons.print.min.js"></script>
+		<script src="../../resource/assets/js/buttons.colVis.min.js"></script>
+		<script src="../../resource/assets/js/dataTables.select.min.js"></script>
+		<script src="../../resource/assets/js/ace-elements.min.js"></script>
+		<script src="../../resource/assets/js/ace.min.js"></script>
+		<script src="../../resource/date/js/date.js"></script>
+		<script src="../../resource/vue/vue.min.js"></script>
+		<script src="../../resource/vue/axios.min.js"></script>
+		<script type="text/javascript">
+			jQuery(function($) {
+				var active_class = 'active';
+				$('#simple-table > thead > tr > th input[type=checkbox]').eq(0).on('click', function() {
+					var th_checked = this.checked; //checkbox inside "TH" table header
+
+					$(this).closest('table').find('tbody > tr').each(function() {
+						var row = this;
+						if (th_checked) $(row).addClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', true);
+						else $(row).removeClass(active_class).find('input[type=checkbox]').eq(0).prop('checked', false);
+					});
+				});
+
+				//select/deselect a row when the checkbox is checked/unchecked
+				$('#simple-table').on('click', 'td input[type=checkbox]', function() {
+					var $row = $(this).closest('tr');
+					if ($row.is('.detail-row ')) return;
+					if (this.checked) $row.addClass(active_class);
+					else $row.removeClass(active_class);
+				});
+			})
+			var d = new DateJs({
+				inputEl: '#start-inputDate',
+				el: '#start-date'
+			})
+			var d = new DateJs({
+				inputEl: '#end-inputDate',
+				el: '#end-date'
+			})
+		</script>
+
+	</body>
+	<script src="../../resource/js/workbench/activity/activity_update.js"></script>
+</html>

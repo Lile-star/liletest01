@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta charset="utf-8" />
+		<title>Tables - Ace Admin</title>
+
+		<meta name="description" content="Static &amp; Dynamic Tables" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+
+		<link rel="stylesheet" href="../../resource/assets/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="../../resource/assets/font-awesome/4.5.0/css/font-awesome.min.css" />
+		<link rel="stylesheet" href="../../resource/assets/css/fonts.googleapis.com.css" />
+		<link rel="stylesheet" href="../../resource/assets/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" />
+		<link rel="stylesheet" href="../../resource/assets/css/ace-skins.min.css" />
+		<link rel="stylesheet" href="../../resource/assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="../../resource/date/css/date.css" />
+		<script href="../../resource/assets/js/ace-extra.min.js"></script>
+	</head>
+
+	<body class="no-skin">
+		<div class="main-container ace-save-state" id="main-container">
+			<div class="main-content">
+				<div class="main-content-inner">
+
+					<div class="page-content">
+						<div class="row">
+							<div class="col-xs-12">
+								<!-- PAGE CONTENT BEGINS -->
+								<div class="row">
+									<div class="col-xs-12">
+									
+									<div>
+										<div style="position: relative; top: -70px;">
+											<div style="position: relative; left: 40px; height: 30px;">
+												<div style="width: 300px; color: gray;">所有者</div>
+												<div style="width: 300px;position: relative; left: 200px; top: -20px;"><b>zhangsan</b></div>
+												<div style="width: 300px;position: relative; left: 450px; top: -40px; color: gray;">名称</div>
+												<div style="width: 300px;position: relative; left: 650px; top: -60px;"><b>发传单</b></div>
+												<div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -60px;"></div>
+												<div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -60px; left: 450px;"></div>
+											</div>
+									
+											<div style="position: relative; left: 40px; height: 30px; top: 10px;">
+												<div style="width: 300px; color: gray;">开始日期</div>
+												<div style="width: 300px;position: relative; left: 200px; top: -20px;"><b>2020-10-10</b></div>
+												<div style="width: 300px;position: relative; left: 450px; top: -40px; color: gray;">结束日期</div>
+												<div style="width: 300px;position: relative; left: 650px; top: -60px;"><b>2020-10-20</b></div>
+												<div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -60px;"></div>
+												<div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -60px; left: 450px;"></div>
+											</div>
+											<div style="position: relative; left: 40px; height: 30px; top: 20px;">
+												<div style="width: 300px; color: gray;">成本</div>
+												<div style="width: 300px;position: relative; left: 200px; top: -20px;"><b>{{activity.cost}}</b></div>
+												<div style="height: 1px; width: 400px; background: #D5D5D5; position: relative; top: -20px;"></div>
+											</div>
+											<div style="position: relative; left: 40px; height: 30px; top: 30px;">
+												<div style="width: 300px; color: gray;">创建者</div>
+												<div style="width: 500px;position: relative; left: 200px; top: -20px;"><b>{{createName}}&nbsp;&nbsp;</b><small
+													 style="font-size: 10px; color: gray;">{{activity.createTime}}</small></div>
+												<div style="height: 1px; width: 550px; background: #D5D5D5; position: relative; top: -20px;"></div>
+											</div>
+											<div style="position: relative; left: 40px; height: 30px; top: 40px;">
+												<div style="width: 300px; color: gray;">修改者</div>
+												<div style="width: 500px;position: relative; left: 200px; top: -20px;"><b>{{activity.editByUser==null?'':activity.editByUser.name}}&nbsp;&nbsp;</b><small
+													 style="font-size: 10px; color: gray;">{{activity.editTime}}</small></div>
+												<div style="height: 1px; width: 550px; background: #D5D5D5; position: relative; top: -20px;"></div>
+											</div>
+											<div style="position: relative; left: 40px; height: 30px; top: 50px;">
+												<div style="width: 300px; color: gray;">描述</div>
+												<div style="width: 630px;position: relative; left: 200px; top: -20px;">
+													<b>
+														{{activity.description}}
+													</b>
+												</div>
+												<div style="height: 1px; width: 850px; background: #D5D5D5; position: relative; top: -20px;"></div>
+											</div>
+										</div>
+									
+										<!-- 备注 -->
+										<div style="position: relative; top: 30px; left: 40px;">
+											<div class="page-header">
+												<h4>备注</h4>
+											</div>
+									
+											<!-- 备注1 -->
+											<div class="remarkDiv" style="height: 60px;" v-for="ar in activity.activityRemarkList">
+												
+												<div style="position: relative; top: -40px; left: 40px;">
+													<h5>{{ar.noteContent}}</h5>
+													<font color="gray">市场活动</font>
+													<font color="gray">-</font> <b>{{activity.name}}</b> <small style="color: gray;"> {{ar.createTime}} 由{{ar.createByUser.name}}</small>
+													<div style="position: relative; left: 500px; top: -30px; height: 30px; width: 100px; display: none;">
+														<a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-edit" style="font-size: 20px; color: #E6E6E6;"></span></a>
+														&nbsp;&nbsp;&nbsp;&nbsp;
+														<a class="myHref" href="javascript:void(0);"><span class="glyphicon glyphicon-remove" style="font-size: 20px; color: #E6E6E6;"></span></a>
+													</div>
+												</div>
+											</div>
+									
+										
+											<div id="remarkDiv" style="background-color: #E6E6E6; width: 870px; height: 90px;">
+												<form role="form" style="position: relative;top: 10px; left: 10px;">
+													<textarea id="remark" v-model="noteContent" class="form-control" style="width: 850px; resize : none;" rows="2" placeholder="添加备注..."></textarea>
+													<p id="cancelAndSaveBtn" style="position: relative;left: 737px; top: 10px; display: none;">
+														<button id="cancelBtn" type="button" class="btn btn-default">取消</button>
+														<button type="button" class="btn btn-primary" v-on:click="addActivityRemark()">保存</button>
+													</p>
+												</form>
+											</div>
+										</div>
+										
+									</div><!-- /.col -->
+																		
+									</div><!-- /.row -->
+								</div><!-- /.page-content -->
+							</div>
+						</div><!-- /.main-content -->
+					</div><!-- /.main-container -->
+				</div>
+			</div>
+			<script src="../../resource/assets/js/jquery-2.1.4.min.js"></script>
+			<script type="text/javascript">
+				if ('ontouchstart' in document.documentElement) document.write(
+					"<script src='assets/js/jquery.mobile.custom.min.js'>" + "<" + "/script>");
+			</script>
+			<script src="../../resource/assets/js/bootstrap.min.js"></script>
+			<script src="../../resource/assets/js/jquery.dataTables.min.js"></script>
+			<script src="../../resource/assets/js/jquery.dataTables.bootstrap.min.js"></script>
+			<script src="../../resource/assets/js/dataTables.buttons.min.js"></script>
+			<script src="../../resource/assets/js/buttons.flash.min.js"></script>
+			<script src="../../resource/assets/js/buttons.html5.min.js"></script>
+			<script src="../../resource/assets/js/buttons.print.min.js"></script>
+			<script src="../../resource/assets/js/buttons.colVis.min.js"></script>
+			<script src="../../resource/assets/js/dataTables.select.min.js"></script>
+			<script src="../../resource/assets/js/ace-elements.min.js"></script>
+			<script src="../../resource/assets/js/ace.min.js"></script>
+			<script src="../../resource/date/js/date.js"></script>
+			<script src="../../resource/vue/vue.min.js"></script>
+			<script src="../../resource/vue/axios.min.js"></script>
+			<script type="text/javascript">
+				jQuery(function($) {
+					//默认情况下取消和保存按钮是隐藏的
+					var cancelAndSaveBtnDefault = true;
+
+					$(function() {
+						$("#remark").focus(function() {
+							if (cancelAndSaveBtnDefault) {
+								//设置remarkDiv的高度为130px
+								$("#remarkDiv").css("height", "130px");
+								//显示
+								$("#cancelAndSaveBtn").show("2000");
+								cancelAndSaveBtnDefault = false;
+							}
+						});
+
+						$("#cancelBtn").click(function() {
+							//显示
+							$("#cancelAndSaveBtn").hide();
+							//设置remarkDiv的高度为130px
+							$("#remarkDiv").css("height", "90px");
+							cancelAndSaveBtnDefault = true;
+						});
+
+						$(".remarkDiv").mouseover(function() {
+							$(this).children("div").children("div").show();
+						});
+
+						$(".remarkDiv").mouseout(function() {
+							$(this).children("div").children("div").hide();
+						});
+
+						$(".myHref").mouseover(function() {
+							$(this).children("span").css("color", "red");
+						});
+
+						$(".myHref").mouseout(function() {
+							$(this).children("span").css("color", "#E6E6E6");
+						});
+					});
+				})
+			</script>
+	</body>
+	<script src="../../resource/js/workbench/activity/activity_detail.js"></script>
+</html>
